@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter City Name">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div class="weather">
+            <img src="images\clouds.png" alt="" class="weather-icon">
+            <h1 class="temp">22°C </h1>
+            <h2 class="city">Rawalpindi</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="humidity.png" alt="">
+                    <div>
+                        <p class="humidity">50</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <img src="wind.png" alt="">
+                    <div>
+                        <p class="wind">15</p>
+                        <p>wind speed</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+   <script>
+    let apikey = "54b56f32103893c86da579c856a9810c"
+    let apiURL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
+    async function weather(city){
+        const data =  await fetch(apiURL+ city + `&appid=${apikey}`)
+        const post = await data.json()
+        document.querySelector(".temp").innerText = Math.round(post.main.temp) + "°C"
+     document.querySelector(".city").innerText = post.name
+     document.querySelector(".humidity").innerText= post.main.humidity + "%"
+     document.querySelector(".wind").innerText=post.wind.speed + 'km/h'
+     document.querySelector(".weather").style.display = 'block'
+       if(post.weather[0].main == 'Rain'){
+        weatherIcon.src = "images/rain.png"
+       }else if(post.weather[0].main == 'Clouds'){
+        weatherIcon.src = 'images/clouds.png'
+       }else if(post.weather[0].main == 'Haze'){
+        weatherIcon.src = 'images/haze.png'
+       }
+    
+        return post
+
+    }
+    let searchbox = document.querySelector(".search input")
+  let searchbtn = document.querySelector(".search button")
+
+  searchbtn.addEventListener("click" , function(){
+   weather(searchbox.value)
+   
+  })
+   </script> 
+</body>
+</html>
